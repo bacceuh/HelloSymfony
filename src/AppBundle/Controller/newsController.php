@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -45,6 +46,13 @@ class newsController extends Controller
 	foreach($news as $one)
 	    $answer[] = array($one->getId(), $one->getCaption(), $one->getDatetime()->format('Y-m-d H:i:s'));
 
+
+	if(count($answer) == 0)
+	{
+	    $resp = new Response('No data to send');
+	    $resp->setStatusCode('204');
+	    return $resp;
+	}
 
 	return new JsonResponse ($answer);
 
